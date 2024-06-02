@@ -88,9 +88,9 @@ const LogIn = () => {
     }
     return (
         <div>
-            <div className="hero  min-h-screen" style={{ backgroundImage: `url("/login-pic.png")` }}>
+            <div className="hero  min-h-screen" style={{ backgroundImage: `url("/login-pic.jpg")` }}>
                 <div className="hero-content flex-col">
-                    <h3 className="text-center text-3xl font-extrabold text-white">Login Here </h3>
+                    <h3 className="text-center text-3xl  font-extrabold text-white">Login Here </h3>
                     <div className="card shrink-0 w-full md:w-[400px] shadow-2xl shadow-black">
                         <form onSubmit={handleLogIn} className="card-body">
                             <div className="form-control">

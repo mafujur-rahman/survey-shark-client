@@ -1,9 +1,19 @@
 
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../../../Context/AuthProvider";
+import { Tooltip } from "react-tooltip";
+import { useContext } from "react";
 
 
 
 const Navbar = () => {
+    const { user, logOut } = useContext(AuthContext);
+    const handleSignOut = () => {
+      logOut()
+        .then()
+        .catch()
+    }
+  
    
     return (
         <div className="">
@@ -129,8 +139,33 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end"> 
-                     <Link to="/log-in"><a className="btn bg-[#e4bb55] text-[#0e191b] border-none mr-1">Log in</a></Link>
-                    <Link to="/register"><a className="btn bg-[#e4bb55] text-[#0e191b] border-none">Register</a></Link>
+                     {
+                         user ?
+                         <>
+                           <a
+                             data-tooltip-id="my-tooltip-inline"
+                             data-tooltip-content={user.displayName}
+                           >
+                             <div className="avatar online mr-5">
+                               <div className="w-16 rounded-full">
+                                 <img src={user?.photoURL} />
+                               </div>
+                             </div>
+                           </a>
+                           <Tooltip
+                             id="my-tooltip-inline"
+                             style={{ backgroundColor: "#113065", color: "#fff" }}
+                           />
+             
+                           <a onClick={handleSignOut} className="btn bg-[#e4bb55] text-[#0e191b] border-none">Log Out</a>
+                         </>
+             
+                         :
+                         <>
+                           <Link to="/log-in"><a className="btn bg-[#e4bb55] text-[#0e191b] border-none mr-1">Log in</a></Link>
+                           <Link to="/register"><a className="btn bg-[#e4bb55] text-[#0e191b] border-none">Register</a></Link>
+                         </>
+                     }
                      
                 </div>
             </div>
