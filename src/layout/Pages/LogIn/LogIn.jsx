@@ -3,7 +3,6 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { BsGithub, BsGoogle } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
 import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../Context/AuthProvider";
