@@ -22,7 +22,7 @@ const Navbar = () => {
                                 { to: "/", label: "Home" },
                                 { to: "/create-survey", label: "Create Survey" },
                                 { to: "/my-surveys", label: "My Surveys" },
-                                { to: "/featured-blogs", label: "Featured Blogs" },
+                                { to: "/dashboard/surveyor", label: "Dashboard" },
                                 { to: "/wishlist", label: "Wishlist" }
                             ].map((item) => (
                                 <NavLink
@@ -47,7 +47,7 @@ const Navbar = () => {
                             { to: "/", label: "Home" },
                             { to: "/create-survey", label: "Create Survey" },
                             { to: "/my-surveys", label: "My Surveys" },
-                            { to: "/featured-blogs", label: "Featured Blogs" },
+                            { to: "/dashboard/surveyor", label: "Dashboard" },
                             { to: "/wishlist", label: "Wishlist" }
                         ].map((item) => (
                             <NavLink
