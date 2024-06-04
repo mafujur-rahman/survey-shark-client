@@ -1,9 +1,11 @@
+
+
 const Faq = () => {
     return (
-        <div className="mx-auto container my-16 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto container my-16 px-4 sm:px-6 lg:px-8 max-w-screen">
             <h1 className="text-3xl sm:text-4xl font-bold text-center">FAQs</h1>
             <p className="mt-8 mb-12 text-gray-700 text-center">Find answers to common questions about our websites and its features.</p>
-            <div className="w-full max-w-3xl mx-auto">
+            <div className="w-full">
                 <div className="collapse collapse-arrow border border-base-300 rounded-md mb-4">
                     <input type="radio" name="faq-accordion" defaultChecked />
                     <div className="collapse-title text-lg sm:text-xl font-medium">
