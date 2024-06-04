@@ -1,14 +1,33 @@
-
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 const CreateSurvey = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = data => {
-    const totalVotes = 23;
-    const newSurvey = {...data, totalVotes}
-    // This is where you would typically handle the form submission, e.g., send data to your backend
-    console.log(newSurvey);
+    const totalVotes = 40;
+    const newSurvey = { ...data, totalVotes };
+    
+    axios.post("http://localhost:5000/surveys", newSurvey)
+      .then(response => {
+        if (response.data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Successfully added a new survey",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      })
+      .catch(error => {
+        console.error('There was an error creating the survey:', error);
+        Swal.fire({
+          icon: "error",
+          title: "Failed to create survey",
+          text: error.message
+        });
+      });
   };
 
   return (
@@ -16,13 +35,11 @@ const CreateSurvey = () => {
       <h2 className="text-2xl font-bold mb-4">Create a new Survey</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="border p-4 rounded-lg space-y-2">
-          <h3 className="text-xl font-semibold">Question</h3>
-          
           <div className="form-control">
             <label className="label">Title</label>
             <input 
               type="text"
-              placeholder="Question title"
+              placeholder="Survey title"
               className="input input-bordered"
               {...register('title', { required: true })}
             />
@@ -32,7 +49,7 @@ const CreateSurvey = () => {
           <div className="form-control">
             <label className="label">Description</label>
             <textarea
-              placeholder="Question description"
+              placeholder="Survey description"
               className="textarea textarea-bordered"
               {...register('description', { required: true })}
             ></textarea>
@@ -71,9 +88,12 @@ const CreateSurvey = () => {
               {...register('category', { required: true })}
             >
               <option value="">Select category</option>
-              <option value="category1">Category 1</option>
-              <option value="category2">Category 2</option>
-              <option value="category3">Category 3</option>
+              <option value="Customer Service">Customer Service</option>
+              <option value="Product">Product</option>
+              <option value="Employee">Employee</option>
+              <option value="Market Research">Market Research</option>
+              <option value="Website">Website</option>
+              <option value="Event">Event</option>
             </select>
             {errors.category && <span className="text-red-500">This field is required</span>}
           </div>
