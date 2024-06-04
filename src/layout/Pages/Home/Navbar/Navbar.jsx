@@ -20,7 +20,7 @@ const Navbar = () => {
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[3] p-2 shadow rounded-box w-52 text-xl font-semibold">
                             {[
                                 { to: "/", label: "Home" },
-                                { to: "/create-survey", label: "Create Survey" },
+                                { to: "/surveys", label: "Surveyes" },
                                 { to: "/my-surveys", label: "My Surveys" },
                                 { to: "/dashboard/surveyor", label: "Dashboard" },
                                 { to: "/wishlist", label: "Wishlist" }
@@ -45,7 +45,7 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1 text-xl font-semibold">
                         {[
                             { to: "/", label: "Home" },
-                            { to: "/create-survey", label: "Create Survey" },
+                            { to: "/surveys", label: "Surveyes" },
                             { to: "/my-surveys", label: "My Surveys" },
                             { to: "/dashboard/surveyor", label: "Dashboard" },
                             { to: "/wishlist", label: "Wishlist" }

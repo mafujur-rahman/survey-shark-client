@@ -9,6 +9,7 @@ import Root from "../Root/Root";
 import Dashboard from "../layout/Pages/Dashboard/Dashboard";
 import SurveyorDashboard from "../layout/Pages/Dashboard/SurveyorDashboard/SurveyorDashboard";
 import CreateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/CreateSurvey";
+import Surveys from "../layout/Pages/Surveys/Surveys";
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path:"/register",
                 element:<Register></Register>
+            },
+            {
+                path:"/surveys",
+                element:<Surveys></Surveys>
             }
         ]
     },
