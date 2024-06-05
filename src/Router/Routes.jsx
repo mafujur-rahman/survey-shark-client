@@ -11,7 +11,7 @@ import SurveyorDashboard from "../layout/Pages/Dashboard/SurveyorDashboard/Surve
 import CreateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/CreateSurvey";
 import Surveys from "../layout/Pages/Surveys/Surveys";
 import SurveyDetails from "../layout/Pages/SurveyDetails/SurveyDetails";
-import SurveyModal from "../layout/Pages/SurveyModal/SurveyModal";
+
 
 
 const router = createBrowserRouter([
@@ -38,10 +38,6 @@ const router = createBrowserRouter([
             {
                 path:"/survey-details/:id",
                 element:<SurveyDetails></SurveyDetails>
-            },
-            {
-                path:"survey-vote",
-                element:<SurveyModal></SurveyModal>
             }
         ]
     },
