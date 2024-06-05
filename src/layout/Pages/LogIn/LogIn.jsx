@@ -19,25 +19,22 @@ const LogIn = () => {
 
 
     const handleGoogleLogIn = async () => {
-        try {
-            const result = await signInWithPopup(auth, provider);
-            console.log(result);
-            Swal.fire({
-                icon: "success",
-                title: "Successfully Logged in",
-                showConfirmButton: false,
-                timer: 1500
-              });
-            setTimeout(() => {
-                navigate(location?.state? location.state : "/");
-            }, 2000);
-        } catch (error) {
-            console.error(error);
-            Swal.fire({
-                icon: "error",
-                text: "Failed to login",
-              });
-        }
+        signInWithPopup(auth, provider)
+            .then(result =>{
+                console.log(result);
+                Swal.fire({
+                    icon: "success",
+                    title: "Successfully Logged in",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                setTimeout(() => {
+                    navigate(location?.state ? location.state : "/")
+                }, 2000);
+            })
+            .catch(error =>{
+                console.log(error)
+            })
     }
 
     const handleGithubLogIn = () => {

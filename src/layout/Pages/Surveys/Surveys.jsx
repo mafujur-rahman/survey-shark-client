@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Surveys = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -11,19 +12,19 @@ const Surveys = () => {
     return response.data;
   };
 
-  const { data, isLoading, error } = useQuery({queryKey:'Surveys', queryFn: fetchSurveys});
+  const { data, isLoading, error } = useQuery({queryKey:['Surveys'], queryFn: fetchSurveys});
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   // Filter surveys based on selected category
   const filteredSurveys = selectedCategory
-    ? data.filter((survey) => survey.category === selectedCategory)
+   ? data.filter((survey) => survey.category === selectedCategory)
     : data;
 
   // Sort surveys based on selected sort option
   const sortedSurveys = sortOption
-    ? filteredSurveys.slice().sort((a, b) => {
+   ? filteredSurveys.slice().sort((a, b) => {
         if (sortOption === 'ascending') {
           return a.totalVotes - b.totalVotes;
         } else {
@@ -33,16 +34,16 @@ const Surveys = () => {
     : filteredSurveys;
 
   return (
-    <div className="container mx-auto my-10">
-      <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">Surveys</h1>
-      <div className="flex justify-between items-center mb-6">
+    <div className="container mx-auto p-4 md:p-6 lg:p-8">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-6">Surveys</h1>
+      <div className="flex flex-wrap justify-between items-center mb-6">
         {/* Category filter dropdown */}
-        <div>
+        <div className="w-full md:w-1/2 lg:w-1/3 mb-4 md:mb-0">
           <label className="mr-2 font-medium text-lg">Filter by Category:</label>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="border px-3 py-2 rounded-md"
+            className="border px-3 py-2 rounded-md w-full"
           >
             <option value="">All Categories</option>
             <option value="Customer Service">Customer Service</option>
@@ -54,17 +55,17 @@ const Surveys = () => {
           </select>
         </div>
         {/* Sort buttons */}
-        <div>
+        <div className="w-full md:w-1/2 lg:w-1/3 mb-4 md:mb-0">
           <label className="mr-2 font-medium text-lg">Sort by Vote Count:</label>
           <button
             onClick={() => setSortOption('ascending')}
-            className="px-4 py-2 rounded-md bg-blue-600 text-white mr-2 hover:bg-blue-700"
+            className="px-4 py-2 rounded-md bg-blue-600 text-white mr-2 hover:bg-blue-700 w-full md:w-auto"
           >
             Ascending
           </button>
           <button
             onClick={() => setSortOption('descending')}
-            className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+            className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 w-full md:w-auto"
           >
             Descending
           </button>
@@ -80,9 +81,11 @@ const Surveys = () => {
               color: survey.textColor
             }}
           >
+            <Link to={`/survey-details/${survey._id}`}>
             <h2 className="text-xl font-semibold mb-2">{survey.title}</h2>
             <p className="text-gray-700 mb-4">{survey.description}</p>
             <p className="font-semibold">Total Votes: {survey.totalVotes}</p>
+            </Link>
           </div>
         ))}
       </div>

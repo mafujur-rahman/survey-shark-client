@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
+import { Link } from "react-router-dom";
 
 const fetchLatestSurveys = async () => {
   const response = await axios.get('http://localhost:5000/surveys/latest');
@@ -7,7 +8,7 @@ const fetchLatestSurveys = async () => {
 };
 
 const LatestSurveys = () => {
-  const { data, isLoading, error } = useQuery({queryKey: 'LatestSurveys', queryFn: fetchLatestSurveys});
+  const { data, isLoading, error } = useQuery({queryKey: ['LatestSurveys'], queryFn: fetchLatestSurveys});
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -22,8 +23,10 @@ const LatestSurveys = () => {
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {data.slice(0, 6).map((survey, index) => (
           <li key={survey._id} className="border p-4 rounded-lg mb-4" style={{ backgroundColor: backgroundColors[index % backgroundColors.length], color: textColors[index % textColors.length] }}>
+           <Link to ={`/survey-details/${survey._id}`}>
             <h3 className="text-xl font-semibold">{survey.title}</h3>
             <p className="text-gray-600">{survey.description}</p>
+            </Link>
           </li>
         ))}
       </ul>
