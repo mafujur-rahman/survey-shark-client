@@ -1,40 +1,38 @@
-import { NavLink, Outlet } from "react-router-dom";
+
+import CreateSurvey from "./SurveyorDashboard/CreateSurvey";
 
 
 const Dashboard = () => {
     return (
-        <div className="mx-auto container mt-10">
-            <div className="drawer">
-                <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col">
-                    {/* Navbar */}
-                    <div className="w-full navbar bg-[#074B5C]">
-                        <div className="flex-none lg:hidden">
-                            <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                            </label>
+        <div className="flex">
+            <div className="w-80 bg-[#074B5C] min-h-screen">
+                {/* profile part */}
+                <div>
+                    <div className="flex gap-5 justify-center items-center bg-[#206f83]">
+                        <div className="avatar">
+                            <div className="my-5 w-20 rounded-full">
+                                <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                            </div>
                         </div>
-                        <div className="flex-1 text-white px-2 mx-2">Surveyor Dashboard</div>
-                        <div className="flex-none hidden lg:block">
-                            <ul className="menu menu-horizontal text-white">
-                                {/* Navbar menu content here */}
-                                <li><NavLink to="/dashboard/surveyor/create">Create Survey</NavLink></li>
-                                <li><NavLink to="/dashboard/surveyor/update/:id">Update Survey</NavLink></li>
-                                <li><NavLink to="/dashboard/surveyor/surveys">Surveys</NavLink></li>
-                            </ul>
+                        <div className="">
+                            <h1 className=" text-white font-normal">Mark Juckerburg</h1>
+                            <p className="text-green-500">Online</p>
                         </div>
                     </div>
-                    {/* Page content here */}
-                    <Outlet></Outlet>
                 </div>
-                <div className="drawer-side">
-                    <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-80 min-h-full bg-base-200">
-                        {/* Sidebar content here */}
-                        <li><NavLink to="/dashboard/surveyor/create">Create Survey</NavLink></li>
-                        <li><NavLink to="/dashboard/surveyor/update/:id">Update Survey</NavLink></li>
-                        <li><NavLink to="/dashboard/surveyor/surveys">Surveys</NavLink></li>
-                    </ul>
+                {/* Links */}
+                <div className="">
+                    <h3 className="text-white my-4 ml-14">Surveyor</h3>
+                    <div className="divider divider-error"></div>
+                </div>
+            </div>
+            <div className="flex-1">
+                <div className="">
+                    <h2 className="text-2xl bg p-8 font-bold">Dashboard</h2>
+                </div>
+                
+                <div className="p-5 bg-gray-200 min-h-screen">
+                    <CreateSurvey></CreateSurvey>
                 </div>
             </div>
         </div>

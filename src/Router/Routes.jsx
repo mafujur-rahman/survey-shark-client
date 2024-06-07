@@ -11,6 +11,7 @@ import SurveyorDashboard from "../layout/Pages/Dashboard/SurveyorDashboard/Surve
 import CreateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/CreateSurvey";
 import Surveys from "../layout/Pages/Surveys/Surveys";
 import SurveyDetails from "../layout/Pages/SurveyDetails/SurveyDetails";
+import ErrorPage from "../layout/Pages/ErrorPage/ErrorPage";
 
 
 
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <Root></Root>,
+        errorElement:<ErrorPage></ErrorPage>,
         children:[
             {
                 path:"/",
@@ -44,6 +46,7 @@ const router = createBrowserRouter([
     {
         path:"dashboard",
         element:<Dashboard></Dashboard>,
+        errorElement:<ErrorPage></ErrorPage>,
         children:[
             {
                 path:"surveyor",
