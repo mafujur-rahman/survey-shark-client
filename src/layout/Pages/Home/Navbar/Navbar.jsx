@@ -21,7 +21,7 @@ const Navbar = () => {
                             {[
                                 { to: "/", label: "Home" },
                                 { to: "/surveys", label: "Surveys" },
-                                { to: "/my-surveys", label: "My Surveys" },
+                                { to: "/pricing", label: "Pricing" },
                                 { to: "/dashboard/surveyor", label: "Dashboard" },
                                 { to: "/wishlist", label: "Wishlist" }
                             ].map((item) => (
@@ -46,7 +46,7 @@ const Navbar = () => {
                         {[
                             { to: "/", label: "Home" },
                             { to: "/surveys", label: "Surveys" },
-                            { to: "/my-surveys", label: "My Surveys" },
+                            { to: "/pricing", label: "Pricing" },
                             { to: "/dashboard/surveyor", label: "Dashboard" },
                             { to: "/wishlist", label: "Wishlist" }
                         ].map((item) => (
@@ -73,15 +73,15 @@ const Navbar = () => {
                                 </div>
                             </a>
                             <Tooltip id="my-tooltip-inline" style={{ backgroundColor: "#113065", color: "#fff" }} />
-                            <button onClick={handleSignOut} className="btn bg-[#e4bb55] text-[#0e191b] border-none">Log Out</button>
+                            <button onClick={handleSignOut} className="btn bg-[#074B5c] text-[#ffff] border-none">Log Out</button>
                         </>
                     ) : (
                         <>
                             <Link to="/log-in">
-                                <button className="btn bg-[#e4bb55] text-[#0e191b] border-none mr-1">Log in</button>
+                                <button className="btn bg-[#074B5c] text-white border-none mr-1">Log in</button>
                             </Link>
                             <Link to="/register">
-                                <button className="btn bg-[#e4bb55] text-[#0e191b] border-none">Register</button>
+                                <button className="btn bg-[#074B5c] text-white border-none">Register</button>
                             </Link>
                         </>
                     )}

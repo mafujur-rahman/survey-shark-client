@@ -12,6 +12,7 @@ import CreateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/CreateSurv
 import Surveys from "../layout/Pages/Surveys/Surveys";
 import SurveyDetails from "../layout/Pages/SurveyDetails/SurveyDetails";
 import ErrorPage from "../layout/Pages/ErrorPage/ErrorPage";
+import PricingPage from "../layout/Pages/PricingPage/PricingPage";
 
 
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
             {
                 path:"/survey-details/:id",
                 element:<SurveyDetails></SurveyDetails>
+            },
+            {
+                path:"/pricing",
+                element:<PricingPage></PricingPage>
             }
         ]
     },
