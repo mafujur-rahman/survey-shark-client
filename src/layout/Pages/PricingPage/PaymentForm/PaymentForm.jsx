@@ -1,16 +1,27 @@
-import  { useContext, useState } from 'react';
-import {  CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useContext, useEffect, useState } from 'react';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { AuthContext } from '../../../../Context/AuthProvider';
-
-
 
 const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [clientSecret, setClientSecret] = useState('');
+
+  useEffect(() => {
+    axios.post('http://localhost:5000/create-payment-intent', {
+      amount: 999,
+    })
+    .then(res => {
+      setClientSecret(res.data.clientSecret);
+    })
+    .catch(error => {
+      setError(error.message);
+    });
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,28 +43,29 @@ const PaymentForm = () => {
       setLoading(false);
       return;
     }
-
-    try {
-      const { id } = paymentMethod;
-      const response = await axios.post('http://localhost:5000/api/pay', {
-        amount: 999, // Amount in cents
-        id,
-      });
-
-      if (response.data.success) {
-        // Update user role to pro-user
-        const updatedUser = { ...user, role: 'pro-user' };
-        setUser(updatedUser);
-
-        // Save updated user info to backend
-        await axios.put(`http://localhost:5000/api/users/${user.id}`, updatedUser);
-
-        alert('Payment Successful! You are now a Pro user.');
-      }
-    } catch (error) {
-      setError('Payment failed. Please try again.');
+    else{
+      console.log('payment method', paymentMethod)
     }
 
+    // Confirm the payment with the clientSecret
+    const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          email: user?.email || 'anonymous',
+          name: user?.displayName || 'anonymous',
+        },
+      },
+    });
+
+    if (confirmError) {
+      setError(confirmError.message);
+      setLoading(false);
+      return;
+    }
+
+    // Handle successful payment here
+    console.log('Payment successful', paymentIntent);
     setLoading(false);
   };
 
