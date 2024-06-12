@@ -31,8 +31,9 @@ const CreateSurvey = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Create a new Survey</h2>
+    <div className="min-h-screen py-10">
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Create a new Survey</h2>
+      <div className="container mx-auto bg-white shadow-md rounded-lg p-8"> 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="border p-4 rounded-lg space-y-2">
           <div className="form-control">
@@ -111,6 +112,7 @@ const CreateSurvey = () => {
         
         <button type="submit" className="btn btn-success">Create Survey</button>
       </form>
+      </div>
     </div>
   );
 };

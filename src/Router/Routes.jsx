@@ -7,7 +7,6 @@ import LogIn from "../layout/Pages/LogIn/LogIn";
 import Register from "../layout/Pages/Register/Register";
 import Root from "../Root/Root";
 import Dashboard from "../layout/Pages/Dashboard/Dashboard";
-import SurveyorDashboard from "../layout/Pages/Dashboard/SurveyorDashboard/SurveyorDashboard";
 import CreateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/CreateSurvey";
 import Surveys from "../layout/Pages/Surveys/Surveys";
 import SurveyDetails from "../layout/Pages/SurveyDetails/SurveyDetails";
@@ -15,6 +14,7 @@ import ErrorPage from "../layout/Pages/ErrorPage/ErrorPage";
 import PricingPage from "../layout/Pages/PricingPage/PricingPage";
 import PaymentPage from "../layout/Pages/PricingPage/PaymentForm/PaymentPage";
 import AllUsers from "../layout/Pages/Dashboard/AdminDashboard/AllUsers";
+import ManageSurveys from "../layout/Pages/Dashboard/AdminDashboard/ManageSurveys";
 
 
 const router = createBrowserRouter([
@@ -64,9 +64,11 @@ const router = createBrowserRouter([
                 element:<AllUsers></AllUsers>
             },
             {
-                path:"surveyor",
-                element:<SurveyorDashboard></SurveyorDashboard>
+                path:'admin/surveys',
+                element:<ManageSurveys></ManageSurveys>
             },
+
+            // surveyor routes
             {
                 path:"surveyor/create",
                 element:<CreateSurvey></CreateSurvey>

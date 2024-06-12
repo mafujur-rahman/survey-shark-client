@@ -1,14 +1,32 @@
 import { useContext } from "react";
 import CreateSurvey from "./SurveyorDashboard/CreateSurvey";
 import { AuthContext } from "../../../Context/AuthProvider";
-import AdminDashboard from "./AdminDashboard/AdminDashboard";
-import { FaMoneyCheckAlt, FaTasks, FaUserCog } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaEdit, FaMoneyCheckAlt, FaPen, FaTasks, FaUserCog } from "react-icons/fa";
+import {  NavLink, Outlet } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import { FaClipboardList } from "react-icons/fa6";
 
 const Dashboard = () => {
-    const { user } = useContext(AuthContext)
-    const isAdmin = true;
-    const isSurveyor = true;
+    const { user } = useContext(AuthContext);
+    const AxiosSecure = UseAxiosSecure();
+
+    const { data: users = [], isLoading } = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const res = await AxiosSecure.get('/users');
+            return res.data;
+        }
+    });
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    // Find the current user from the fetched users
+    const currentUser = users.find(u => u.email === user.email);
+    const isAdmin = currentUser?.role === 'admin';
+    const isSurveyor = currentUser?.role === 'surveyor';
     return (
         <div className="flex">
             <div className="w-80 bg-[#074B5C] min-h-screen">
@@ -39,11 +57,110 @@ const Dashboard = () => {
                     }
                     <div className="divider divider-error"></div>
                     <div>
-                        <ul className="px-10">
-                            <Link to='/dashboard/admin/users'><button className="btn bg-transparent text-white  w-full my-2"> <FaUserCog></FaUserCog> Manage Users & Roles</button></Link>
-                            <button className="btn bg-transparent text-white  w-full my-2"> <FaTasks></FaTasks> Publish/Unpublish Surveys</button>
-                            <button className="btn bg-transparent text-white  w-full my-2"> <FaMoneyCheckAlt></FaMoneyCheckAlt> View Payments </button>
+                    {
+                        // admin links
+                        isAdmin ? <ul className="px-10">
+                        <li>
+                            <NavLink
+                                to="/dashboard/admin/users"
+                                className={({ isActive }) =>
+                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                }
+                            >
+                                <FaUserCog /> Manage Users & Roles
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/dashboard/admin/surveys"
+                                className={({ isActive }) =>
+                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                }
+                            >
+                                <FaTasks /> Publish/Unpublish Surveys
+                            </NavLink>
+                        </li>
+                        <li>
+                        <NavLink
+                                to="/dashboard/admin/payments"
+                                className={({ isActive }) =>
+                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                }
+                            >
+                                <FaMoneyCheckAlt /> View All Payments
+                            </NavLink>
+                        </li>
+                    </ul> 
+
+                    // surveyor links
+                    : isSurveyor ?<ul className="px-10">
+                            <li>
+                                <NavLink
+                                    to="/dashboard/surveyor/create"
+                                    className={({ isActive }) =>
+                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                    }
+                                >
+                                    <FaPen /> Create Survey
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/dashboard/surveyor/update/:id"
+                                    className={({ isActive }) =>
+                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                    }
+                                >
+                                    <FaEdit /> Update  Survey
+                                </NavLink>
+                            </li>
+                            <li>
+                            <NavLink
+                                    to="/dashboard/surveyor/surveys"
+                                    className={({ isActive }) =>
+                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                    }
+                                >
+                                    <FaClipboardList /> Survey Responses
+                                </NavLink>
+                            </li>
+                        </ul> 
+
+
+                        // user links
+                        : <ul className="px-10">
+                            <li>
+                                <NavLink
+                                    to="/dashboard/user/surveys"
+                                    className={({ isActive }) =>
+                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                    }
+                                >
+                                    <FaUserCog /> Participate
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/dashboard/user/my-reports"
+                                    className={({ isActive }) =>
+                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                    }
+                                >
+                                    <FaTasks /> Reported Surveys
+                                </NavLink>
+                            </li>
+                            <li>
+                            <NavLink
+                                    to="/dashboard/user/comments"
+                                    className={({ isActive }) =>
+                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                    }
+                                >
+                                    <FaMoneyCheckAlt /> Comments
+                                </NavLink>
+                            </li>
                         </ul>
+                    }
                     </div>
                 </div>
             </div>
@@ -55,7 +172,7 @@ const Dashboard = () => {
                     {
                         isAdmin ?
                             <>
-                                <AdminDashboard></AdminDashboard>
+                                <Outlet></Outlet>
                             </> : isSurveyor ?
                                 <>
                                     <CreateSurvey></CreateSurvey>
