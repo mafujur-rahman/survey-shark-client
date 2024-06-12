@@ -14,6 +14,7 @@ import SurveyDetails from "../layout/Pages/SurveyDetails/SurveyDetails";
 import ErrorPage from "../layout/Pages/ErrorPage/ErrorPage";
 import PricingPage from "../layout/Pages/PricingPage/PricingPage";
 import PaymentPage from "../layout/Pages/PricingPage/PaymentForm/PaymentPage";
+import AllUsers from "../layout/Pages/Dashboard/AdminDashboard/AllUsers";
 
 
 const router = createBrowserRouter([
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
         element:<Dashboard></Dashboard>,
         errorElement:<ErrorPage></ErrorPage>,
         children:[
+            // admin routes
+            {
+                path: "admin/users",
+                element:<AllUsers></AllUsers>
+            },
             {
                 path:"surveyor",
                 element:<SurveyorDashboard></SurveyorDashboard>

@@ -6,10 +6,12 @@ import { ToastContainer } from "react-toastify";
 import { GithubAuthProvider, GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../Context/AuthProvider";
+import UseAxiosPublic from "../../../Hooks/UseAxiosPublic";
 
 const LogIn = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const {signIn} = useContext(AuthContext);
+    const { signIn } = useContext(AuthContext);
+    const AxiosPublic = UseAxiosPublic();
     const navigate = useNavigate();
     const location = useLocation();
     const auth = getAuth();
@@ -20,39 +22,90 @@ const LogIn = () => {
 
     const handleGoogleLogIn = async () => {
         signInWithPopup(auth, provider)
-            .then(result =>{
+            .then(result => {
                 console.log(result);
-                Swal.fire({
-                    icon: "success",
-                    title: "Successfully Logged in",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                setTimeout(() => {
-                    navigate(location?.state ? location.state : "/")
-                }, 2000);
-            })
-            .catch(error =>{
-                console.log(error)
+                const role = 'user';
+                const userInfo = {
+                    name: result.user?.displayName,
+                    email: result.user?.email,
+                    role
+                }
+                // Make POST request to register user
+                AxiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Successfully Logged in",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {
+                                navigate(location?.state ? location.state : "/")
+                            }, 2000);
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Successfully Logged in",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {
+                                navigate(location?.state ? location.state : "/")
+                            }, 2000);
+                        }
+                        navigate('/');
+                    })
+
+                    .catch(error => {
+                        console.log(error)
+                    })
             })
     }
 
     const handleGithubLogIn = () => {
         signInWithPopup(auth, ghProvider)
             .then(result => {
-                console.log(result)
-                Swal.fire({
-                    icon: "success",
-                    title: "Successfully Logged in",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-                setTimeout(() => {
-                    navigate(location?.state ? location.state : "/")
-                }, 2000);
-            })
-            .catch(error => {
-                console.error(error)
+                const role = 'user';
+                const userInfo = {
+                    name: result.user?.displayName,
+                    email: result.user?.email,
+                    role
+                }
+                // Make POST request to register user
+                AxiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Successfully Logged in",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {
+                                navigate(location?.state ? location.state : "/")
+                            }, 2000);
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Successfully Logged in",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(() => {
+                                navigate(location?.state ? location.state : "/")
+                            }, 2000);
+                        }
+                        navigate('/');
+                    })
+
+                    .catch(error => {
+                        console.log(error)
+                    })
             })
     }
     const handleLogIn = (e) => {
@@ -69,7 +122,7 @@ const LogIn = () => {
                     title: "Successfully Logged in",
                     showConfirmButton: false,
                     timer: 1500
-                  });
+                });
                 setTimeout(() => {
                     navigate(location?.state ? location.state : "/")
                 }, 2000);
@@ -79,7 +132,7 @@ const LogIn = () => {
                 Swal.fire({
                     icon: "error",
                     text: "User not found",
-                  });
+                });
             })
     }
     return (
