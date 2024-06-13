@@ -76,24 +76,44 @@ const SurveyDetails = () => {
     setReportModalIsOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const formData = new FormData(e.target);
-    const formResponses = {};
-    formData.forEach((value, key) => {
-      formResponses[key] = value;
+  
+    
+    let voteCounts = { yes: 0, no: 0 };
+  
+    
+    formData.forEach((value) => {
+      
+      if (value === 'Yes') {
+        voteCounts.yes++;
+      } else if (value === 'No') {
+        voteCounts.no++;
+      }
     });
-    const newResponse = {name: user.displayName, email: user.email, title, surveyId:_id ,formResponses}
-    axios.post('http://localhost:5000/responses', newResponse)
-    .then(res =>{
-      console.log(res.data)
-    })
-
-    setResponses(formResponses);
+  
+    // Prepare new response with vote counts
+    const newResponse = {
+      name: user.displayName,
+      email: user.email,
+      title,
+      surveyId: _id,
+      formResponses: Object.fromEntries(formData), 
+      voteCounts 
+    };
+  
+    try {
+      const response = await axios.post('http://localhost:5000/responses', newResponse);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error submitting response:', error);
+    }
+  
     setSubmitted(true);
   };
-
+  
   const handleReportSubmit = () => {
     // Handle report submission logic here
     console.log('Report submitted');
