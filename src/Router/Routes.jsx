@@ -15,6 +15,8 @@ import PricingPage from "../layout/Pages/PricingPage/PricingPage";
 import PaymentPage from "../layout/Pages/PricingPage/PaymentForm/PaymentPage";
 import AllUsers from "../layout/Pages/Dashboard/AdminDashboard/AllUsers";
 import ManageSurveys from "../layout/Pages/Dashboard/AdminDashboard/ManageSurveys";
+import UpdateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSurvey";
+import UpdateSingleSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSingleSurvey";
 
 
 const router = createBrowserRouter([
@@ -72,6 +74,14 @@ const router = createBrowserRouter([
             {
                 path:"surveyor/create",
                 element:<CreateSurvey></CreateSurvey>
+            },
+            {
+                path:'surveyor/update',
+                element:<UpdateSurvey></UpdateSurvey>
+            },
+            {
+                path:'surveyor/update/:id',
+                element: <UpdateSingleSurvey></UpdateSingleSurvey>
             }
         ]
     }

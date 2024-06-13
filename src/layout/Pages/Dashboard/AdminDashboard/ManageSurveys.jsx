@@ -1,24 +1,17 @@
-import { useEffect, useState } from "react";
+
+import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../../../Hooks/UseAxiosSecure";
 import Swal from "sweetalert2";
 
 const ManageSurveys = () => {
-    const [surveys, setSurveys] = useState([]);
     const AxiosSecure = UseAxiosSecure();
 
-    useEffect(() => {
-        // Fetch surveys when component mounts
-        fetchSurveys();
-    }, []);
-
     const fetchSurveys = async () => {
-        try {
-            const response = await AxiosSecure.get("/surveys");
-            setSurveys(response.data);
-        } catch (error) {
-            console.error("Error fetching surveys:", error);
-        }
+        const response = await AxiosSecure.get("/surveys");
+        return response.data;
     };
+
+    const { data: surveys = [] } = useQuery({queryKey: ['surveys'], queryFn: fetchSurveys} );
 
     const handleManageSurveys = async (survey) => {
         try {

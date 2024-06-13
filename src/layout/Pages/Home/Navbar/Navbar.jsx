@@ -22,7 +22,7 @@ const Navbar = () => {
                                 { to: "/", label: "Home" },
                                 { to: "/surveys", label: "Surveys" },
                                 { to: "/pricing", label: "Pricing" },
-                                { to: "/dashboard/surveyor", label: "Dashboard" },
+                                { to: "/dashboard", label: "Dashboard" },
                                 { to: "/wishlist", label: "Wishlist" }
                             ].map((item) => (
                                 <NavLink
@@ -47,7 +47,7 @@ const Navbar = () => {
                             { to: "/", label: "Home" },
                             { to: "/surveys", label: "Surveys" },
                             { to: "/pricing", label: "Pricing" },
-                            { to: "/dashboard/surveyor", label: "Dashboard" },
+                            { to: "/dashboard", label: "Dashboard" },
                             { to: "/wishlist", label: "Wishlist" }
                         ].map((item) => (
                             <NavLink

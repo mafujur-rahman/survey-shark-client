@@ -81,7 +81,7 @@ const SurveyDetails = () => {
   const handleReportSubmit = () => {
     // Handle report submission logic here
     console.log('Report submitted');
-    closeReportModal(); // Close modal after submission
+    closeReportModal(); 
   };
 
   return (

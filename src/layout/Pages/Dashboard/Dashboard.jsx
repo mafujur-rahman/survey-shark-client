@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import CreateSurvey from "./SurveyorDashboard/CreateSurvey";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { FaEdit, FaMoneyCheckAlt, FaPen, FaTasks, FaUserCog } from "react-icons/fa";
 import {  NavLink, Outlet } from "react-router-dom";
@@ -106,7 +105,7 @@ const Dashboard = () => {
                             </li>
                             <li>
                                 <NavLink
-                                    to="/dashboard/surveyor/update/:id"
+                                    to="/dashboard/surveyor/update"
                                     className={({ isActive }) =>
                                         isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
                                     }
@@ -175,7 +174,7 @@ const Dashboard = () => {
                                 <Outlet></Outlet>
                             </> : isSurveyor ?
                                 <>
-                                    <CreateSurvey></CreateSurvey>
+                                    <Outlet></Outlet>
                                 </> :
                                 <>
 
