@@ -34,9 +34,20 @@ const SurveyDetails = () => {
     return <p className="text-center text-red-600">Error fetching survey details</p>;
   }
 
-  const { title, description, totalVotes, category, deadline, creationTime } = currentSurvey;
+  const { _id, title, description, totalVotes, category, deadline, creationTime } = currentSurvey;
 
   const openModal = () => {
+    if (!user) {
+      Swal.fire({
+        icon: "error",
+        title: "Log in to report a survey",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      setTimeout(() => {
+        Navigate(location?.state ? location.state : "/log-in")
+      }, 2000);
+    }
     setModalIsOpen(true);
   };
 
@@ -73,6 +84,11 @@ const SurveyDetails = () => {
     formData.forEach((value, key) => {
       formResponses[key] = value;
     });
+    const newResponse = {name: user.displayName, email: user.email, title, surveyId:_id ,formResponses}
+    axios.post('http://localhost:5000/responses', newResponse)
+    .then(res =>{
+      console.log(res.data)
+    })
 
     setResponses(formResponses);
     setSubmitted(true);

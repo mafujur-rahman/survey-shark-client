@@ -17,6 +17,8 @@ import AllUsers from "../layout/Pages/Dashboard/AdminDashboard/AllUsers";
 import ManageSurveys from "../layout/Pages/Dashboard/AdminDashboard/ManageSurveys";
 import UpdateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSurvey";
 import UpdateSingleSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSingleSurvey";
+import ViewSurveys from "../layout/Pages/Dashboard/SurveyorDashboard/ViewSurvey";
+import ViewSurveyDetails from "../layout/Pages/Dashboard/SurveyorDashboard/ViewSurveyDetails";
 
 
 const router = createBrowserRouter([
@@ -82,6 +84,14 @@ const router = createBrowserRouter([
             {
                 path:'surveyor/update/:id',
                 element: <UpdateSingleSurvey></UpdateSingleSurvey>
+            },
+            {
+                path:'surveyor/surveys',
+                element:<ViewSurveys></ViewSurveys>
+            },
+            {
+                path:'surveyor/surveys/:id',
+                element:<ViewSurveyDetails></ViewSurveyDetails>
             }
         ]
     }

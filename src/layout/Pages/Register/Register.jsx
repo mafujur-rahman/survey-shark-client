@@ -50,7 +50,7 @@ const Register = () => {
                             if (res.data.insertedId) {
                                 Swal.fire({
                                     icon: "success",
-                                    title: "Successfully Logged in",
+                                    title: "Successfully Registered",
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
