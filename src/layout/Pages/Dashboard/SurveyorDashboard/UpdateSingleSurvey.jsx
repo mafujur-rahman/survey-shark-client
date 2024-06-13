@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const fetchSurveys = async () => {
     try {
@@ -13,7 +14,7 @@ const fetchSurveys = async () => {
 };
 
 const UpdateSingleSurvey = () => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: { errors }  } = useForm();
     const { id } = useParams();
     const { data: surveys, isLoading, isError } = useQuery({
         queryKey: ['SurveyDetails'],
@@ -36,9 +37,26 @@ const UpdateSingleSurvey = () => {
     const { title, description, category, deadline } = currentSurvey;
 
     const onSubmit = (data) => {
-        const updatedSurvey = {...data};
-        // Add your update logic here
-        console.log(data);
+        const updatedSurvey = { ...data };
+        axios.put(`http://localhost:5000/surveyor/update/${currentSurvey._id}`, updatedSurvey)
+            .then(response => {
+                if (response.data.modifiedCount > 0) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Successfully update the survey",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('There was an error creating the survey:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Failed to update survey",
+                    text: error.message
+                });
+            });
     };
 
     return (
@@ -76,7 +94,7 @@ const UpdateSingleSurvey = () => {
                                         type="radio"
                                         className="radio"
                                         value="yes"
-                                        {...register("options")}
+                                        {...register("options", {required: true})}
                                     />
                                     <span className="ml-2">Yes</span>
                                 </label>
@@ -90,6 +108,7 @@ const UpdateSingleSurvey = () => {
                                     <span className="ml-2">No</span>
                                 </label>
                             </div>
+                            {errors.options && <span className="text-red-500">This field is required</span>}
                         </div>
 
                         <div className="form-control">
