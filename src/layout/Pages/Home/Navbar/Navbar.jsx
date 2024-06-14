@@ -1,9 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../../../Context/AuthProvider";
-import { Tooltip } from "react-tooltip";
 import { useContext } from "react";
 import UseAxiosSecure from "../../../../Hooks/UseAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { FaHome, FaPoll, FaMoneyCheckAlt, FaTasks } from "react-icons/fa";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -45,19 +45,18 @@ const Navbar = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
                             </svg>
                         </div>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[3] p-2 shadow rounded-box w-52 text-xl font-semibold">
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[5] p-2 shadow bg-white rounded-box w-52 text-xl font-semibold">
                             {[
-                                { to: "/", label: "Home" },
-                                { to: "/surveys", label: "Surveys" },
-                                { to: "/pricing", label: "Pricing" },
-                                { to: dashboardLink, label: "Dashboard" },
-                                { to: "/wishlist", label: "Wishlist" }
+                                { to: "/", label: <><FaHome className="inline mr-2"/> Home</> },
+                                { to: "/surveys", label: <><FaPoll className="inline mr-2"/> Surveys</> },
+                                { to: "/pricing", label: <><FaMoneyCheckAlt className="inline mr-2"/> Pricing</> },
+                                { to: dashboardLink, label: <><FaTasks className="inline mr-2"/> Dashboard</> },
                             ].map((item) => (
                                 <NavLink
                                     key={item.to}
                                     to={item.to}
                                     className={({ isActive }) =>
-                                        isActive ? "bg-[#074B5c] text-white p-2 rounded-md" : "text-[#32474c] p-2 rounded-md"
+                                        isActive ? "bg-[#074B5c] text-white p-2 rounded-md" : "text-black p-2 rounded-md"
                                     }
                                 >
                                     <li><a>{item.label}</a></li>
@@ -72,11 +71,10 @@ const Navbar = () => {
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1 text-xl font-semibold">
                         {[
-                            { to: "/", label: "Home" },
-                            { to: "/surveys", label: "Surveys" },
-                            { to: "/pricing", label: "Pricing" },
-                            { to: dashboardLink, label: "Dashboard" },
-                            { to: "/wishlist", label: "Wishlist" }
+                            { to: "/", label: <><FaHome className="inline mr-2"/> Home</> },
+                            { to: "/surveys", label: <><FaPoll className="inline mr-2"/> Surveys</> },
+                            { to: "/pricing", label: <><FaMoneyCheckAlt className="inline mr-2"/> Pricing</> },
+                            { to: dashboardLink, label: <><FaTasks className="inline mr-2"/> Dashboard</> },
                         ].map((item) => (
                             <NavLink
                                 key={item.to}
@@ -93,14 +91,6 @@ const Navbar = () => {
                 <div className="navbar-end">
                     {user ? (
                         <>
-                            <a data-tooltip-id="my-tooltip-inline" data-tooltip-content={user.displayName}>
-                                <div className="avatar online mr-5">
-                                    <div className="w-16 rounded-full">
-                                        <img src={user?.photoURL} alt="User" />
-                                    </div>
-                                </div>
-                            </a>
-                            <Tooltip id="my-tooltip-inline" style={{ backgroundColor: "#113065", color: "#fff" }} />
                             <button onClick={handleSignOut} className="btn bg-[#074B5c] text-[#ffff] border-none">Log Out</button>
                         </>
                     ) : (

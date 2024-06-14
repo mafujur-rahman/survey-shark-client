@@ -31,7 +31,7 @@ const SurveyDetails = () => {
     }
   });
 
-  const currentUser = users.find(u => u.email === user.email);
+  const currentUser = users.find(u => u.email === user?.email);
   const isProUser = currentUser?.role === 'pro-user';
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -62,7 +62,7 @@ const SurveyDetails = () => {
         Navigate(location?.state ? location.state : "/log-in");
       }, 2000);
     }
-    setModalIsOpen(true);
+    else{setModalIsOpen(true);}
   };
 
   const closeModal = () => {

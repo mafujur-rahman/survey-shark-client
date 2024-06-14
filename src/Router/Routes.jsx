@@ -24,6 +24,7 @@ import ViewAllData from "../layout/Pages/Dashboard/AdminDashboard/ViewAllData";
 import Participate from "../layout/Pages/Dashboard/UserDashboard/Participate";
 import ReportedSurvey from "../layout/Pages/Dashboard/UserDashboard/ReportedSurvey";
 import Comments from "../layout/Pages/Dashboard/UserDashboard/Comments";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
             },
             {
                 path:"/pricing",
-                element:<PricingPage></PricingPage>
+                element:<PrivateRoute><PricingPage></PricingPage></PrivateRoute>
             },
             {
                 path:"/payment",
@@ -64,7 +65,7 @@ const router = createBrowserRouter([
     },
     {
         path:"dashboard",
-        element:<Dashboard></Dashboard>,
+        element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         errorElement:<ErrorPage></ErrorPage>,
         children:[
             // admin routes
