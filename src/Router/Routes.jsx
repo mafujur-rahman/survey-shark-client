@@ -19,6 +19,7 @@ import UpdateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSurv
 import UpdateSingleSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSingleSurvey";
 import ViewSurveys from "../layout/Pages/Dashboard/SurveyorDashboard/ViewSurvey";
 import ViewSurveyDetails from "../layout/Pages/Dashboard/SurveyorDashboard/ViewSurveyDetails";
+import PaymentHistory from "../layout/Pages/PricingPage/PaymentForm/PaymentHistory";
 
 
 const router = createBrowserRouter([
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
             {
                 path:'admin/surveys',
                 element:<ManageSurveys></ManageSurveys>
+            },
+            {
+                path:'admin/payments',
+                element:<PaymentHistory></PaymentHistory>
             },
 
             // surveyor routes
