@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
-import { FaCheckCircle, FaEdit, FaMoneyCheckAlt, FaPen, FaTasks, FaUserCog } from "react-icons/fa";
-import {  NavLink, Outlet } from "react-router-dom";
+import { FaCheckCircle, FaComment, FaEdit, FaFlag, FaHome, FaMoneyCheckAlt, FaPen, FaPoll, FaTasks, FaUserCog } from "react-icons/fa";
+import { NavLink, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 import { FaClipboardList } from "react-icons/fa6";
@@ -56,120 +56,135 @@ const Dashboard = () => {
                     }
                     <div className="divider divider-error"></div>
                     <div>
-                    {
-                        // admin links
-                        isAdmin ? <ul className="px-10">
-                        <li>
-                            <NavLink
-                                to="/dashboard/admin/users"
-                                className={({ isActive }) =>
-                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                }
-                            >
-                                <FaUserCog /> Manage Users & Roles
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/dashboard/admin/surveys"
-                                className={({ isActive }) =>
-                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                }
-                            >
-                                <FaTasks /> Publish/Unpublish Surveys
-                            </NavLink>
-                        </li>
-                        <li>
-                        <NavLink
-                                to="/dashboard/admin/payments"
-                                className={({ isActive }) =>
-                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                }
-                            >
-                                <FaMoneyCheckAlt /> View All Payments
-                            </NavLink>
-                        </li>
-                    </ul> 
+                        {
+                            // admin links
+                            isAdmin ? <ul className="px-10">
+                                <li>
+                                    <NavLink
+                                        to="/dashboard/admin/users"
+                                        className={({ isActive }) =>
+                                            isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                        }
+                                    >
+                                        <FaUserCog /> Manage Users & Roles
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/dashboard/admin/surveys"
+                                        className={({ isActive }) =>
+                                            isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                        }
+                                    >
+                                        <FaTasks /> Publish/Unpublish Surveys
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/dashboard/admin/payments"
+                                        className={({ isActive }) =>
+                                            isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                        }
+                                    >
+                                        <FaMoneyCheckAlt /> View All Payments
+                                    </NavLink>
+                                </li>
+                            </ul>
 
-                    // surveyor links
-                    : isSurveyor ?<ul className="px-10">
-                            <li>
-                                <NavLink
-                                    to="/dashboard/surveyor/create"
-                                    className={({ isActive }) =>
-                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                    }
-                                >
-                                    <FaPen /> Create Survey
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to="/dashboard/surveyor/update"
-                                    className={({ isActive }) =>
-                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                    }
-                                >
-                                    <FaEdit /> Update  Survey
-                                </NavLink>
-                            </li>
-                            <li>
-                            <NavLink
-                                    to="/dashboard/surveyor/surveys"
-                                    className={({ isActive }) =>
-                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                    }
-                                >
-                                    <FaClipboardList /> Survey Responses
-                                </NavLink>
-                            </li>
-                            <li>
-                            <NavLink
-                                    to="/dashboard/surveyor/feedbacks"
-                                    className={({ isActive }) =>
-                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                    }
-                                >
-                                    <FaCheckCircle /> Admin Feedbacks
-                                </NavLink>
-                            </li>
-                        </ul> 
+                                // surveyor links
+                                : isSurveyor ? <ul className="px-10">
+                                    <li>
+                                        <NavLink
+                                            to="/dashboard/surveyor/create"
+                                            className={({ isActive }) =>
+                                                isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                            }
+                                        >
+                                            <FaPen /> Create Survey
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to="/dashboard/surveyor/update"
+                                            className={({ isActive }) =>
+                                                isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                            }
+                                        >
+                                            <FaEdit /> Update  Survey
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to="/dashboard/surveyor/surveys"
+                                            className={({ isActive }) =>
+                                                isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                            }
+                                        >
+                                            <FaClipboardList /> Survey Responses
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            to="/dashboard/surveyor/feedbacks"
+                                            className={({ isActive }) =>
+                                                isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                            }
+                                        >
+                                            <FaCheckCircle /> Admin Feedbacks
+                                        </NavLink>
+                                    </li>
+                                </ul>
 
 
-                        // user links
-                        : <ul className="px-10">
-                            <li>
-                                <NavLink
-                                    to="/dashboard/user/surveys"
-                                    className={({ isActive }) =>
-                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                    }
-                                >
-                                    <FaUserCog /> Participate
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to="/dashboard/user/my-reports"
-                                    className={({ isActive }) =>
-                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                    }
-                                >
-                                    <FaTasks /> Reported Surveys
-                                </NavLink>
-                            </li>
-                            <li>
-                            <NavLink
-                                    to="/dashboard/user/comments"
-                                    className={({ isActive }) =>
-                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                    }
-                                >
-                                    <FaMoneyCheckAlt /> Comments
-                                </NavLink>
-                            </li>
-                        </ul>
-                    }
+                                    // user links
+                                    : <ul className="px-10">
+                                        <li>
+                                            <NavLink
+                                                to="/dashboard/user/surveys"
+                                                className={({ isActive }) =>
+                                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                                }
+                                            >
+                                                <FaPoll /> Participate
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                to="/dashboard/user/my-reports"
+                                                className={({ isActive }) =>
+                                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                                }
+                                            >
+                                                <FaFlag /> Reported Surveys
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                to="/dashboard/user/comments"
+                                                className={({ isActive }) =>
+                                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                                }
+                                            >
+                                                <FaComment /> Comments
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                        }
+                        <div className="mt-40">
+                            <p className="divider divider-error"></p>
+                            <ul className="px-10">
+                                <li>
+                                    <NavLink
+                                        to="/"
+                                        className={({ isActive }) =>
+                                            isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                        }
+                                    >
+                                        <FaHome /> Home
+                                    </NavLink>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -187,7 +202,7 @@ const Dashboard = () => {
                                     <Outlet></Outlet>
                                 </> :
                                 <>
-
+                                    <Outlet></Outlet>
                                 </>
                     }
                 </div>

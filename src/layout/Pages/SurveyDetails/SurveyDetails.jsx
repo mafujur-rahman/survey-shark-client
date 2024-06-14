@@ -38,6 +38,7 @@ const SurveyDetails = () => {
   const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
   const [responses, setResponses] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [reportReason, setReportReason] = useState('');
 
   if (isLoading) {
     return <p className="text-center text-gray-600">Loading...</p>;
@@ -112,18 +113,36 @@ const SurveyDetails = () => {
     };
   
     try {
-      const response = await axios.post('http://localhost:5000/responses', newResponse);
+      const response = await axiosSecure.post('/responses', newResponse);
       console.log(response.data);
     } catch (error) {
       console.error('Error submitting response:', error);
     }
-  
+    setResponses(Object.fromEntries(formData.entries()));
     setSubmitted(true);
   };
 
-  const handleReportSubmit = () => {
-    // Handle report submission logic here
-    console.log('Report submitted');
+  const handleTextareaChange = (event) => {
+    setReportReason(event.target.value);
+  };
+
+  const handleReportSubmit =async (e) => {
+    e.preventDefault();
+    const newReport ={
+      surveyName: title,
+      email: user.email,
+      reportReason
+    }
+    const res = await axiosSecure.post('/reports',newReport)
+    console.log(res.data);
+    if(res.data.insertedId){
+      Swal.fire({
+        icon: "success",
+        title: "reported successfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
     closeReportModal();
   };
 
@@ -177,23 +196,16 @@ const SurveyDetails = () => {
       >
         {submitted ? (
           <div className="grid min-h-screen justify-center items-center">
-            <div className="border border-gray-300 bg-white p-10 rounded-lg">
+          <div className="border border-gray-300 bg-white p-10 rounded-lg">
               <h3 className="text-xl font-bold mb-6">Survey Results:</h3>
-              <div className="mb-4">
-                <p><strong>Work Environment:</strong> {responses.work_environment}</p>
-              </div>
-              <div className="mb-4">
-                <p><strong>Management Support:</strong> {responses.management_support}</p>
-              </div>
-              <div className="mb-4">
-                <p><strong>Professional Development:</strong> {responses.professional_development}</p>
-              </div>
-              <div className="mb-4">
-                <p><strong>Job Satisfaction:</strong> {responses.job_satisfaction}</p>
-              </div>
+              {Object.entries(responses).map(([question, response]) => (
+                  <div className="mb-4" key={question}>
+                      <p><strong>{question}:</strong> {response}</p>
+                  </div>
+              ))}
               <button onClick={closeModal} className="btn bg-blue-500 hover:bg-blue-700 text-white font-bold mb-4 py-2 px-4 rounded">Close</button>
-            </div>
           </div>
+      </div>
         ) : (
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
             <div className="mb-6 bg-white w-full p-5 rounded-lg mt-8">
@@ -264,15 +276,26 @@ const SurveyDetails = () => {
         }}
       >
         <form onSubmit={handleReportSubmit} className="max-w-md mx-auto">
-          <div className="mb-6 bg-white w-full p-5 rounded-lg mt-8">
-            <h3 className="text-lg font-bold mb-2">Report Survey:</h3>
-            <label className="block mb-2">
-              <h1 className="text-lg font-medium mb-1">Reason for reporting:</h1>
-              <textarea className="w-full p-2 border border-gray-300 rounded" rows="4" placeholder="Explain why you are reporting this survey"></textarea>
-            </label>
-          </div>
-          <button className="btn bg-red-500 hover:bg-red-700 text-white font-bold mb-10 py-2 px-4 rounded" type="submit">Submit Report</button>
-        </form>
+        <div className="mb-6 bg-white w-full p-5 rounded-lg mt-8">
+          <h3 className="text-lg font-bold mb-2">Report Survey:</h3>
+          <label className="block mb-2">
+            <h1 className="text-lg font-medium mb-1">Reason for reporting:</h1>
+            <textarea
+              className="w-full p-2 border border-gray-300 rounded"
+              rows="4"
+              placeholder="Explain why you are reporting this survey"
+              value={reportReason}
+              onChange={handleTextareaChange}
+            ></textarea>
+          </label>
+        </div>
+        <button
+          className="btn bg-red-500 hover:bg-red-700 text-white font-bold mb-10 py-2 px-4 rounded"
+          type="submit"
+        >
+          Submit Report
+        </button>
+      </form>
       </Modal>
     </div>
   );
