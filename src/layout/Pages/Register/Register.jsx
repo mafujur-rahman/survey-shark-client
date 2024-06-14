@@ -43,6 +43,7 @@ const Register = () => {
                         email,
                         role
                     }
+                    console.log(userInfo)
                     // Make POST request to register user
                     AxiosPublic.post('/users', userInfo)
                         .then(res => {

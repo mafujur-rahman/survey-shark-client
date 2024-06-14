@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { AuthContext } from '../../../../Context/AuthProvider';
 import UseAxiosSecure from '../../../../Hooks/UseAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 
 const PaymentForm = () => {
@@ -10,27 +11,31 @@ const PaymentForm = () => {
   const { user } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [clientSecret, setClientSecret] = useState('');
   const axiosSecure = UseAxiosSecure();
 
-  useEffect(() => {
-    axiosSecure.post('/create-payment-intent', {
-      amount: 999,
-    })
-    .then(res => {
-      setClientSecret(res.data.clientSecret);
-    })
-    .catch(error => {
-      setError(error.message);
-    });
-  }, []);
+  const fetchClientSecret = async () => {
+    try {
+      const response = await axiosSecure.post('/create-payment-intent', {
+        amount: 999,
+      });
+      return response.data.clientSecret;
+    } catch (error) {
+      throw new Error('Failed to fetch client secret');
+    }
+  };
+
+  const { data: clientSecret, isLoading, isError } = useQuery({
+    queryKey: 'clientSecret',
+    queryFn: fetchClientSecret,
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || isLoading || isError) {
+      setLoading(false);
       return;
     }
 
@@ -39,15 +44,11 @@ const PaymentForm = () => {
       type: 'card',
       card: cardElement,
     });
-    
-
+    console.log('payment method', paymentMethod)
     if (error) {
       setError(error.message);
       setLoading(false);
       return;
-    }
-    else{
-      console.log('payment method', paymentMethod)
     }
 
     // Confirm the payment with the clientSecret
@@ -70,46 +71,41 @@ const PaymentForm = () => {
     // Handle successful payment here
     console.log('Payment successful', paymentIntent);
     setLoading(false);
-    if(paymentIntent.status === 'succeeded'){
-      console.log('transaction id:' , paymentIntent.id)
-      const today = new Date().toISOString().split('T')[0]; 
+    if (paymentIntent.status === 'succeeded') {
+      console.log('transaction id:', paymentIntent.id);
+      const today = new Date().toISOString().split('T')[0];
       const payment = {
         email: user.email,
         name: user.displayName,
         date: today,
-        transactionId: paymentIntent.id
-      }
+        transactionId: paymentIntent.id,
+      };
       const res = await axiosSecure.post('/payments', payment);
-console.log('payment save', res);
-if (res.data.insertedId) {
-    axiosSecure.get(`/users/${user.email}`)
-        .then(response => {
-            if (response.data.role === 'pro-user') {
+      console.log('payment save', res);
+      if (res.data.insertedId) {
+        axiosSecure.get(`/users/${user.email}`).then((response) => {
+          if (response.data.role === 'pro-user') {
+            Swal.fire({
+              icon: 'info',
+              title: 'You are already a pro user',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          } else {
+            const newRole = { role: 'pro-user' };
+            axiosSecure.patch(`/users/${user.email}`, newRole).then((response) => {
+              if (response.data.modifiedCount > 0) {
                 Swal.fire({
-                    icon: "info",
-                    title: "You are already a pro user",
-                    showConfirmButton: false,
-                    timer: 1500
+                  icon: 'success',
+                  title: 'You are now a pro-user',
+                  showConfirmButton: false,
+                  timer: 1500,
                 });
-            } else {
-                const newRole = { role: 'pro-user' };
-                axiosSecure.patch(`/users/${user.email}`, newRole)
-                    .then(response => {
-                        if (response.data.modifiedCount > 0) {
-                            Swal.fire({
-                                icon: "success",
-                                title: "You are now a pro-user",
-                                showConfirmButton: false,
-                                timer: 1500
-                            });
-                        }
-                    });
-            }
+              }
+            });
+          }
         });
-}
-
-      
-
+      }
     }
   };
 

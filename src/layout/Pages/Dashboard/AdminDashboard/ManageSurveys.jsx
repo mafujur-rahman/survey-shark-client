@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../../../Hooks/UseAxiosSecure";
 import Swal from "sweetalert2";
 import Modal from "react-modal";
+import { AuthContext } from "../../../../Context/AuthProvider";
 
 const ManageSurveys = () => {
     const AxiosSecure = UseAxiosSecure();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedSurvey, setSelectedSurvey] = useState(null);
     const [feedback, setFeedback] = useState("");
+    const {user} = useContext(AuthContext)
 
     const fetchSurveys = async () => {
         const response = await AxiosSecure.get("/surveys");
@@ -36,7 +38,8 @@ const ManageSurveys = () => {
                 const newFeedback = {
                     surveyId: selectedSurvey._id,
                     feedback,
-                    title: selectedSurvey.title
+                    title: selectedSurvey.title,
+                    adminName: user.displayName,
                 };
                 await AxiosSecure.post('/surveyFeedbacks', newFeedback);
             }

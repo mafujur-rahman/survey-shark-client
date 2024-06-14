@@ -19,7 +19,8 @@ import UpdateSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSurv
 import UpdateSingleSurvey from "../layout/Pages/Dashboard/SurveyorDashboard/UpdateSingleSurvey";
 import ViewSurveys from "../layout/Pages/Dashboard/SurveyorDashboard/ViewSurvey";
 import ViewSurveyDetails from "../layout/Pages/Dashboard/SurveyorDashboard/ViewSurveyDetails";
-import PaymentHistory from "../layout/Pages/PricingPage/PaymentForm/PaymentHistory";
+import SurveyFeedback from "../layout/Pages/Dashboard/SurveyorDashboard/SurveyFeedback";
+import ViewAllData from "../layout/Pages/Dashboard/AdminDashboard/ViewAllData";
 
 
 const router = createBrowserRouter([
@@ -74,7 +75,7 @@ const router = createBrowserRouter([
             },
             {
                 path:'admin/payments',
-                element:<PaymentHistory></PaymentHistory>
+                element:<ViewAllData></ViewAllData>
             },
 
             // surveyor routes
@@ -97,6 +98,10 @@ const router = createBrowserRouter([
             {
                 path:'surveyor/surveys/:id',
                 element:<ViewSurveyDetails></ViewSurveyDetails>
+            },
+            {
+                path:'surveyor/feedbacks',
+                element:<SurveyFeedback></SurveyFeedback>
             }
         ]
     }

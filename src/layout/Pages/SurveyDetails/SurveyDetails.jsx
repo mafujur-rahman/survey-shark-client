@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
+import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 
 const fetchSurveys = async () => {
   try {
@@ -20,6 +21,18 @@ const SurveyDetails = () => {
   const { data: surveys, isLoading, isError } = useQuery({ queryKey: ['SurveyDetails'], queryFn: fetchSurveys });
   const currentSurvey = surveys?.find(item => item._id === id);
   const { user } = useContext(AuthContext);
+  const axiosSecure = UseAxiosSecure();
+
+  const { data: users = [] } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const res = await axiosSecure.get('/users');
+      return res.data;
+    }
+  });
+
+  const currentUser = users.find(u => u.email === user.email);
+  const isProUser = currentUser?.role === 'pro-user';
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [reportModalIsOpen, setReportModalIsOpen] = useState(false);
@@ -45,7 +58,7 @@ const SurveyDetails = () => {
         timer: 1500
       });
       setTimeout(() => {
-        Navigate(location?.state ? location.state : "/log-in")
+        Navigate(location?.state ? location.state : "/log-in");
       }, 2000);
     }
     setModalIsOpen(true);
@@ -53,7 +66,7 @@ const SurveyDetails = () => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-    setSubmitted(false); // Reset submission status when closing modal
+    setSubmitted(false); 
     setResponses({});
   };
 
@@ -66,10 +79,11 @@ const SurveyDetails = () => {
         timer: 1500
       });
       setTimeout(() => {
-        Navigate(location?.state ? location.state : "/log-in")
+        Navigate(location?.state ? location.state : "/log-in");
       }, 2000);
+    } else {
+      setReportModalIsOpen(true);
     }
-    else (setReportModalIsOpen(true));
   };
 
   const closeReportModal = () => {
@@ -78,15 +92,9 @@ const SurveyDetails = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     const formData = new FormData(e.target);
-  
-    
     let voteCounts = { yes: 0, no: 0 };
-  
-    
     formData.forEach((value) => {
-      
       if (value === 'Yes') {
         voteCounts.yes++;
       } else if (value === 'No') {
@@ -94,14 +102,13 @@ const SurveyDetails = () => {
       }
     });
   
-    // Prepare new response with vote counts
     const newResponse = {
       name: user.displayName,
       email: user.email,
       title,
       surveyId: _id,
-      formResponses: Object.fromEntries(formData), 
-      voteCounts 
+      formResponses: Object.fromEntries(formData),
+      voteCounts
     };
   
     try {
@@ -113,11 +120,11 @@ const SurveyDetails = () => {
   
     setSubmitted(true);
   };
-  
+
   const handleReportSubmit = () => {
     // Handle report submission logic here
     console.log('Report submitted');
-    closeReportModal(); 
+    closeReportModal();
   };
 
   return (
@@ -141,12 +148,16 @@ const SurveyDetails = () => {
         </div>
       </div>
       <div className="mx-auto container">
-        <h3 className="text-2xl font-bold my-8 ">Comments:</h3>
+        <h3 className="text-2xl font-bold my-8">Comments:</h3>
         <div className="flex items-center mb-4">
           <div className="w-16 rounded-full overflow-hidden">
             <img src={user?.photoURL} alt="User" />
           </div>
-          <input className="p-5 flex-1 ml-4" type="text" placeholder="Add a comment" />
+          {isProUser ? (
+            <input className="p-5 flex-1 ml-4" type="text" placeholder="Add a comment" />
+          ) : (
+            <p className="ml-4 text-red-600">Only pro users can comment here.</p>
+          )}
         </div>
       </div>
       <Modal
@@ -165,10 +176,9 @@ const SurveyDetails = () => {
         }}
       >
         {submitted ? (
-          <div className=" grid min-h-screen justify-center items-center">
-            
+          <div className="grid min-h-screen justify-center items-center">
             <div className="border border-gray-300 bg-white p-10 rounded-lg">
-            <h3 className="text-xl font-bold mb-6">Survey Results:</h3>
+              <h3 className="text-xl font-bold mb-6">Survey Results:</h3>
               <div className="mb-4">
                 <p><strong>Work Environment:</strong> {responses.work_environment}</p>
               </div>
@@ -183,7 +193,6 @@ const SurveyDetails = () => {
               </div>
               <button onClick={closeModal} className="btn bg-blue-500 hover:bg-blue-700 text-white font-bold mb-4 py-2 px-4 rounded">Close</button>
             </div>
-            
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="max-w-md mx-auto">
@@ -254,7 +263,6 @@ const SurveyDetails = () => {
           }
         }}
       >
-        {/* Add your report form inside the modal */}
         <form onSubmit={handleReportSubmit} className="max-w-md mx-auto">
           <div className="mb-6 bg-white w-full p-5 rounded-lg mt-8">
             <h3 className="text-lg font-bold mb-2">Report Survey:</h3>

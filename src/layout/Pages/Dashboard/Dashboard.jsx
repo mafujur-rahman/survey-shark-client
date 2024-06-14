@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
-import { FaEdit, FaMoneyCheckAlt, FaPen, FaTasks, FaUserCog } from "react-icons/fa";
+import { FaCheckCircle, FaEdit, FaMoneyCheckAlt, FaPen, FaTasks, FaUserCog } from "react-icons/fa";
 import {  NavLink, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
@@ -121,6 +121,16 @@ const Dashboard = () => {
                                     }
                                 >
                                     <FaClipboardList /> Survey Responses
+                                </NavLink>
+                            </li>
+                            <li>
+                            <NavLink
+                                    to="/dashboard/surveyor/feedbacks"
+                                    className={({ isActive }) =>
+                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                    }
+                                >
+                                    <FaCheckCircle /> Admin Feedbacks
                                 </NavLink>
                             </li>
                         </ul> 
