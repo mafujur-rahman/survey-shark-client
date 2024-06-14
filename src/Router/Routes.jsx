@@ -22,6 +22,8 @@ import ViewSurveyDetails from "../layout/Pages/Dashboard/SurveyorDashboard/ViewS
 import SurveyFeedback from "../layout/Pages/Dashboard/SurveyorDashboard/SurveyFeedback";
 import ViewAllData from "../layout/Pages/Dashboard/AdminDashboard/ViewAllData";
 import Participate from "../layout/Pages/Dashboard/UserDashboard/Participate";
+import ReportedSurvey from "../layout/Pages/Dashboard/UserDashboard/ReportedSurvey";
+import Comments from "../layout/Pages/Dashboard/UserDashboard/Comments";
 
 
 const router = createBrowserRouter([
@@ -109,6 +111,14 @@ const router = createBrowserRouter([
             {
                 path: 'user/surveys',
                 element:<Participate></Participate>
+            },
+            {
+                path: 'user/my-reports',
+                element:<ReportedSurvey></ReportedSurvey>
+            },
+            {
+                path:'user/comments',
+                element: <Comments></Comments>
             }
         ]
     }

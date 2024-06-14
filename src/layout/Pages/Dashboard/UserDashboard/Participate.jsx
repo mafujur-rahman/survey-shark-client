@@ -54,13 +54,15 @@ const Participate = () => {
                     <table className="table-auto w-full bg-white border-collapse border border-gray-300">
                         <thead className="bg-[#074B5C] border border-[#074B5C] text-white">
                             <tr>
+                                <th className="p-4 text-left">Serial No</th>
                                 <th className="p-4 text-left">Name</th>
                                 <th className="p-4 text-left">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {surveys.map((survey) => (
+                            {surveys.map((survey, index) => (
                                 <tr key={survey._id} className="border-b last:border-0 hover:bg-gray-100">
+                                    <td className="p-4">{index + 1}</td>
                                     <td className="p-4">{survey.title}</td>
                                     <td className="p-4">
                                         <button

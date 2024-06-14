@@ -105,7 +105,7 @@ const SurveyDetails = () => {
   
     const newResponse = {
       name: user.displayName,
-      email: user.email,
+      email: user?.email,
       title,
       surveyId: _id,
       formResponses: Object.fromEntries(formData),
@@ -130,7 +130,7 @@ const SurveyDetails = () => {
     e.preventDefault();
     const newReport ={
       surveyName: title,
-      email: user.email,
+      email: user?.email,
       reportReason
     }
     const res = await axiosSecure.post('/reports',newReport)
@@ -145,6 +145,27 @@ const SurveyDetails = () => {
     }
     closeReportModal();
   };
+
+  const handleComments = async (e) =>{
+    e.preventDefault();
+    const form = e.target;
+    const comment = form.comment.value;
+    const newComment ={
+      SurveyName: title,
+      email: user?.email,
+      name: user?.displayName,
+      comment
+    }
+    const res = await axiosSecure.post('/comments', newComment)
+    if(res.data.insertedId){
+      Swal.fire({
+        icon: "success",
+        title: "Thank you for commenting",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
+  }
 
   return (
     <div className="bg-[#F2E6F7] p-8 rounded-lg shadow-md">
@@ -173,7 +194,10 @@ const SurveyDetails = () => {
             <img src={user?.photoURL} alt="User" />
           </div>
           {isProUser ? (
-            <input className="p-5 flex-1 ml-4" type="text" placeholder="Add a comment" />
+            <form onSubmit={handleComments}>
+              <input className="p-3 mr-2 flex-1 ml-4" name="comment" type="text" placeholder="Add a comment" />
+              <input className="btn p-2 bg-[#074B5C] text-white" type="submit" value="Comment" />
+            </form>
           ) : (
             <p className="ml-4 text-red-600">Only pro users can comment here.</p>
           )}

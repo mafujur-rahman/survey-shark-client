@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 import { FaClipboardList } from "react-icons/fa6";
 
+
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
     const AxiosSecure = UseAxiosSecure();
@@ -26,6 +27,8 @@ const Dashboard = () => {
     const currentUser = users.find(u => u.email === user.email);
     const isAdmin = currentUser?.role === 'admin';
     const isSurveyor = currentUser?.role === 'surveyor';
+    const isProUser = currentUser?.role === 'pro-user';
+
     return (
         <div className="flex">
             <div className="w-80 bg-[#074B5C] min-h-screen">
@@ -50,9 +53,9 @@ const Dashboard = () => {
                             <h3 className="text-white mt-8 text-center">Admin</h3>
                         ) : isSurveyor ? (
                             <h3 className="text-white mt-8 text-center">Surveyor</h3>
-                        ) : (
-                            <h3 className="text-white mt-8 text-center">User</h3>
-                        )
+                        ) : isProUser ?(
+                            <h3 className="text-white mt-8 text-center">Pro User</h3>
+                        ) : (<h3 className="text-white mt-8 text-center">User</h3>)
                     }
                     <div className="divider divider-error"></div>
                     <div>
@@ -159,14 +162,28 @@ const Dashboard = () => {
                                             </NavLink>
                                         </li>
                                         <li>
-                                            <NavLink
-                                                to="/dashboard/user/comments"
-                                                className={({ isActive }) =>
-                                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
-                                                }
-                                            >
-                                                <FaComment /> Comments
-                                            </NavLink>
+                                            {isProUser ? (
+                                                <NavLink
+                                                    to="/dashboard/user/comments"
+                                                    className={({ isActive }) =>
+                                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                                    }
+                                                >
+                                                    <FaComment /> Comments
+                                                </NavLink>
+                                            ) : (
+                                                <div className="relative group">
+                                                    <button
+                                                        className="btn bg-[#074b5c] text-white my-3 w-full cursor-not-allowed"
+                                                        disabled
+                                                    >
+                                                        <FaComment /> Comments
+                                                    </button>
+                                                    <span className="absolute bottom-full mb-2 hidden w-full bg-black text-white text-center text-sm p-2 rounded group-hover:block">
+                                                        Only pro users have access to this page
+                                                    </span>
+                                                </div>
+                                            )}
                                         </li>
                                     </ul>
                         }
