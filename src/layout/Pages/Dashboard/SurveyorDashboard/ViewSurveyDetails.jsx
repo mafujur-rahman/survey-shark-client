@@ -100,7 +100,7 @@ const ViewSurveyDetails = () => {
     }
 
     return (
-        <div className="min-h-screen py-10 bg-gray-100">
+        <div className="min-h-screen bg-gray-100 border border-[#074B5C] rounded-lg p-10">
             <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">Survey Details</h2>
             <div className="container mx-auto w-full max-w-6xl bg-white shadow-md rounded-lg p-8">
                 <div className="flex justify-end mb-4">

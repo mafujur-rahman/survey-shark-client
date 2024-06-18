@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 
 const fetchSurveys = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/surveys');
+        const response = await axios.get('https://survey-shark-server.vercel.app/surveys');
         return response.data;
     } catch (error) {
         throw new Error("Failed to fetch surveys");
@@ -38,7 +38,7 @@ const UpdateSingleSurvey = () => {
 
     const onSubmit = (data) => {
         const updatedSurvey = { ...data };
-        axios.put(`http://localhost:5000/surveyor/update/${currentSurvey._id}`, updatedSurvey)
+        axios.put(`https://survey-shark-server.vercel.app/surveyor/update/${currentSurvey._id}`, updatedSurvey)
             .then(response => {
                 if (response.data.modifiedCount > 0) {
                     Swal.fire({
@@ -60,8 +60,8 @@ const UpdateSingleSurvey = () => {
     };
 
     return (
-        <div className="min-h-screen py-10">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Update a Survey</h2>
+        <div className="min-h-screen bg-gray-100 border border-[#074B5C] rounded-lg p-10">
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Update Survey</h2>
             <div className="container mx-auto bg-white shadow-md rounded-lg p-8">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div className="border p-4 rounded-lg space-y-2">

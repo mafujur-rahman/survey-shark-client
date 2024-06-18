@@ -9,7 +9,7 @@ const CreateSurvey = () => {
     const totalVotes = 40;
     const newSurvey = { ...data, totalVotes };
     
-    axios.post("http://localhost:5000/surveys", newSurvey)
+    axios.post("https://survey-shark-server.vercel.app/surveys", newSurvey)
       .then(response => {
         if (response.data.insertedId) {
           Swal.fire({
@@ -31,7 +31,7 @@ const CreateSurvey = () => {
   };
 
   return (
-    <div className="min-h-screen  py-10">
+    <div className="min-h-screen bg-gray-100 border border-[#074B5C] rounded-lg p-10">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Create a new Survey</h2>
       <div className="container mx-auto bg-white shadow-md rounded-lg p-8"> 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

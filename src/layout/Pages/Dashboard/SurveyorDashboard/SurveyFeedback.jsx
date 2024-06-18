@@ -25,7 +25,7 @@ const SurveyFeedback = () => {
     }
 
     return (
-        <div className="mt-8 overflow-x-auto">
+        <div className="mt-8 min-h-screen overflow-x-auto bg-gray-100 border border-[#074B5C] rounded-lg p-10">
             <h3 className="text-2xl font-bold mb-10 text-center">Admin Feedback on Unpublished Survey:</h3>
             {feedbackData.length > 0 ? (
                 <table className="table-auto w-full border-collapse bg-white">

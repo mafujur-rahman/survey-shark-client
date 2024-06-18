@@ -22,7 +22,7 @@ const ReportedSurvey = () => {
     return (
         <div>
             <h3 className="text-2xl font-bold my-10 text-center">Reported surveys</h3>
-            <div className="bg-gray-100 border min-h-screen border-[#074B5C] p-5 flex justify-center">
+            <div className="bg-gray-100 border min-h-screen border-[#074B5C] rounded-lg p-5 flex justify-center">
                 <div className="w-fit mt-8">
                     <h4 className="text-xl font-bold text-center mb-8">My Reports:</h4>
                     <table className="table-auto w-full mt-14 bg-white border-collapse border border-gray-300">

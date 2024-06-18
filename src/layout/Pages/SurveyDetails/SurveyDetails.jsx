@@ -9,7 +9,7 @@ import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 
 const fetchSurveys = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/surveys');
+    const response = await axios.get('https://survey-shark-server.vercel.app/surveys');
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch surveys");
@@ -54,7 +54,7 @@ const SurveyDetails = () => {
     if (!user) {
       Swal.fire({
         icon: "error",
-        title: "Log in to report a survey",
+        title: "Log in to vote a survey",
         showConfirmButton: false,
         timer: 1500
       });

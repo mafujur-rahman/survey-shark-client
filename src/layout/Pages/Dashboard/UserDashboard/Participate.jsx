@@ -48,7 +48,7 @@ const Participate = () => {
     return (
         <div>
             <h3 className="text-2xl font-bold my-10 text-center">Participate in Surveys</h3>
-            <div className="bg-gray-100 border border-[#074B5C] p-5 flex justify-center">
+            <div className="bg-gray-100 border border-[#074B5C] rounded-lg p-5 flex justify-center">
                 <div className="w-fit">
                     <h4 className="text-xl font-bold text-center mb-4">Available Surveys:</h4>
                     <table className="table-auto w-full bg-white border-collapse border border-gray-300">

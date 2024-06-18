@@ -32,7 +32,7 @@ const ViewAllData = () => {
     }
 
     return (
-        <div className="my-8 overflow-x-auto">
+        <div className="my-8 overflow-x-auto bg-gray-100 border border-[#074B5C] rounded-lg p-10">
             <h3 className="text-2xl font-bold mb-10 text-center">View All Payments and Survey Responses:</h3>
 
             {/* Payments Table */}

@@ -2,32 +2,20 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { FaCheckCircle, FaComment, FaEdit, FaFlag, FaHome, FaMoneyCheckAlt, FaPen, FaPoll, FaTasks, FaUserCog } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
 import { FaClipboardList } from "react-icons/fa6";
+import useAdmin from "../../../Hooks/useAdmin";
+import useSurveyor from "../../../Hooks/useSurveyor";
+import useProUser from "../../../Hooks/useProUser";
+import Swal from "sweetalert2";
 
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
-    const AxiosSecure = UseAxiosSecure();
+    const [isAdmin] = useAdmin();
+    const [isSurveyor] = useSurveyor();
+    const [isProUser] = useProUser();
 
-    const { data: users = [], isLoading } = useQuery({
-        queryKey: ['users'],
-        queryFn: async () => {
-            const res = await AxiosSecure.get('/users');
-            return res.data;
-        }
-    });
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    // Find the current user from the fetched users
-    const currentUser = users.find(u => u.email === user.email);
-    const isAdmin = currentUser?.role === 'admin';
-    const isSurveyor = currentUser?.role === 'surveyor';
-    const isProUser = currentUser?.role === 'pro-user';
 
     return (
         <div className="flex">
@@ -53,7 +41,7 @@ const Dashboard = () => {
                             <h3 className="text-white mt-8 text-center">Admin</h3>
                         ) : isSurveyor ? (
                             <h3 className="text-white mt-8 text-center">Surveyor</h3>
-                        ) : isProUser ?(
+                        ) : isProUser ? (
                             <h3 className="text-white mt-8 text-center">Pro User</h3>
                         ) : (<h3 className="text-white mt-8 text-center">User</h3>)
                     }
@@ -161,30 +149,30 @@ const Dashboard = () => {
                                                 <FaFlag /> Reported Surveys
                                             </NavLink>
                                         </li>
+
                                         <li>
-                                            {isProUser ? (
-                                                <NavLink
-                                                    to="/dashboard/user/comments"
-                                                    className={({ isActive }) =>
-                                                        isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                            <NavLink
+                                                to="/dashboard/user/comments"
+                                                className={({ isActive }) =>
+                                                    isActive ? "btn bg-white text-black my-3 w-full" : "btn bg-[#074b5c] text-white my-3 w-full"
+                                                }
+                                                onClick={(e) => {
+                                                    if (!isProUser) {
+                                                        e.preventDefault();
+                                                        Swal.fire({
+                                                            icon: 'warning',
+                                                            title: 'Oops...',
+                                                            text: 'Only pro users have access to this page!',
+                                                            confirmButtonColor: '#074b5c'
+                                                        });
                                                     }
-                                                >
-                                                    <FaComment /> Comments
-                                                </NavLink>
-                                            ) : (
-                                                <div className="relative group">
-                                                    <button
-                                                        className="btn bg-[#074b5c] text-white my-3 w-full cursor-not-allowed"
-                                                        disabled
-                                                    >
-                                                        <FaComment /> Comments
-                                                    </button>
-                                                    <span className="absolute bottom-full mb-2 hidden w-full bg-black text-white text-center text-sm p-2 rounded group-hover:block">
-                                                        Only pro users have access to this page
-                                                    </span>
-                                                </div>
-                                            )}
+                                                }}
+                                            >
+                                                <FaComment /> Comments
+                                            </NavLink>
                                         </li>
+
+
                                     </ul>
                         }
                         <div className="mt-40">

@@ -1,7 +1,8 @@
 import {  createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import {  createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {  createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import UseAxiosPublic from "../Hooks/UseAxiosPublic";
 
 
 
@@ -14,11 +15,25 @@ const auth = getAuth(app);
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const axiosPublic = UseAxiosPublic()
 
-    // create user
-    const createUser = (email, password) =>{
+    const createUser = (email, password, name, image) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password);
+        const auth = getAuth();
+        return createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                return updateProfile(user, {
+                    displayName: name,
+                    photoURL: image
+                }).then(() => {
+                    return user;
+                });
+            })
+            .catch((error) => {
+                setLoading(false);
+                throw error;
+            });
     };
 
     const signIn = (email, password) =>{
@@ -39,16 +54,27 @@ const AuthProvider = ({children}) => {
         logOut
     }
 
-    useEffect(()=>{
-        const unSubscribe =  onAuthStateChanged(auth, currentUser =>{
-            //   console.log('user changed', currentUser)
-              setUser(currentUser);
-              setLoading(false);
-          });
-          return () =>{
-              unSubscribe();
-          }
-      },[]);
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            setUser(currentUser);
+            if (currentUser) {
+                const userInfo = { email: currentUser.email };
+                    const res = await axiosPublic.post('/jwt', userInfo);
+                    if (res.data.token) {
+                        localStorage.setItem('access-token', res.data.token);
+                    }
+                
+            } else {
+                localStorage.removeItem('access-token');
+            }
+            setLoading(false);
+        });
+    
+        return () => {
+            unSubscribe();
+        };
+    }, [axiosPublic]);
+    
 
     return (
         <AuthContext.Provider value={authInfo}>

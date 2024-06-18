@@ -12,13 +12,23 @@ const AllUsers = () => {
         queryKey: ['users', roleFilter],
         queryFn: async () => {
             const res = await AxiosSecure.get('/users', {
-                params: roleFilter ? { role: roleFilter } : {}
+                params: roleFilter ? { role: roleFilter } : {},
             });
             return res.data;
         }
     });
 
     const handleManageUser = user => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, do it!"
+        }).then((result) => {
+            if (result.isConfirmed)
         AxiosSecure.patch(`users/admin/${user._id}`)
             .then(res => {
                 if (res.data.modifiedCount > 0) {
@@ -29,6 +39,7 @@ const AllUsers = () => {
                     });
                 }
             });
+        });
     };
 
     const handleDeleteUser = (user) => {
@@ -68,7 +79,7 @@ const AllUsers = () => {
         : users;
 
     return (
-        <div className="min-h-screen py-10">
+        <div className="min-h-screen bg-gray-100 border border-[#074B5C] rounded-lg p-10">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Manage All Users</h2>
             <div className="container mx-auto bg-white shadow-md rounded-lg p-8">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-4">

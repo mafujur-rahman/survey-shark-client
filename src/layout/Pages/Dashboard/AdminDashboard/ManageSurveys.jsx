@@ -76,7 +76,7 @@ const ManageSurveys = () => {
     };
 
     return (
-        <div className="min-h-screen py-10">
+        <div className="min-h-screen bg-gray-100 border border-[#074B5C] rounded-lg p-10">
             <h2 className="text-3xl font-bold text-center text-gray-800">Manage Surveys</h2>
             <div className="container mx-auto bg-white shadow-md rounded-lg p-8 mt-10">
                 <div className="overflow-x-auto">

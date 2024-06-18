@@ -27,6 +27,7 @@ import Comments from "../layout/Pages/Dashboard/UserDashboard/Comments";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 
+
 const router = createBrowserRouter([
     {
         path: "/",
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
             {
                 path:"/payment",
                 element:<PaymentPage></PaymentPage>
-            }
+            },
         ]
     },
     {

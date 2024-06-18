@@ -17,6 +17,7 @@ const Register = () => {
         const form = e.target;
         const name = form.name.value;
         const email = form.email.value;
+        const image = form.image.value;
         const password = form.password.value;
         const role = 'user';
 
@@ -34,17 +35,16 @@ const Register = () => {
                 throw new Error("Password must have a numeric character");
             }
 
-            // Call createUser function from context
-            createUser(email, password)
-                .then(result => {
-                    console.log(result.user)
+
+            createUser(email, password, name, image)
+                .then(user => {
+                    console.log("New user:", user);
                     const userInfo = {
                         name,
                         email,
-                        role
-                    }
-                    console.log(userInfo)
-                    // Make POST request to register user
+                        role,
+                        image
+                    };
                     AxiosPublic.post('/users', userInfo)
                         .then(res => {
                             console.log(res.data);
@@ -74,7 +74,7 @@ const Register = () => {
 
     return (
         <div>
-            <div className="hero  min-h-screen" style={{ backgroundImage: `url("/login-pic.jpg")` }}>
+            <div className="hero  min-h-screen" style={{ backgroundImage: `url("/login-pic.png")` }}>
                 <div className="hero-content flex-col">
                     <h3 className="text-center text-3xl font-extrabold text-white">Register Here</h3>
                     <div className="card shrink-0 w-full md:w-[400px] shadow-2xl shadow-black">
@@ -90,6 +90,12 @@ const Register = () => {
                                     <span className="label-text text-white">Email</span>
                                 </label>
                                 <input type="email" placeholder="email" className="input input-bordered" name="email" required />
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text text-white">Photo Url</span>
+                                </label>
+                                <input type="text" placeholder="photo url" className="input input-bordered" name="image" required />
                             </div>
                             <div className="form-control">
                                 <label className="label">
