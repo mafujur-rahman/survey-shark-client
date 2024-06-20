@@ -153,7 +153,7 @@ const LogIn = () => {
                                     <span className="label-text text-white">Password</span>
                                 </label>
                                 <div className="relative">
-                                    <input type={showPassword ? "text" : "password"} placeholder="Create new password" name="password" className="input input-bordered w-full" required />
+                                    <input type={showPassword ? "text" : "password"} placeholder="Enter your password" name="password" className="input input-bordered w-full" required />
                                     <span className="absolute top-4 right-3" onClick={() => setShowPassword(!showPassword)}>
                                         {
                                             showPassword ? <AiFillEyeInvisible /> : <AiFillEye />

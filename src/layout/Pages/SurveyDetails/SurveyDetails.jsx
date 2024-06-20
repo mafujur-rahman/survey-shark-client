@@ -6,11 +6,12 @@ import axios from "axios";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import UseAxiosPublic from "../../../Hooks/UseAxiosPublic";
 
 const fetchSurveys = async () => {
   try {
     const response = await axios.get('https://survey-shark-server.vercel.app/surveys');
-    return response.data;
+    return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     throw new Error("Failed to fetch surveys");
   }
@@ -18,10 +19,11 @@ const fetchSurveys = async () => {
 
 const SurveyDetails = () => {
   const { id } = useParams();
-  const { data: surveys, isLoading, isError } = useQuery({ queryKey: ['SurveyDetails'], queryFn: fetchSurveys });
+  const { data: surveys, isLoading, isError, refetch } = useQuery({ queryKey: ['SurveyDetails'], queryFn: fetchSurveys });
   const currentSurvey = surveys?.find(item => item._id === id);
   const { user } = useContext(AuthContext);
   const axiosSecure = UseAxiosSecure();
+  const axiosPublic = UseAxiosPublic();
 
   const { data: users = [] } = useQuery({
     queryKey: ['users'],
@@ -120,6 +122,11 @@ const SurveyDetails = () => {
     }
     setResponses(Object.fromEntries(formData.entries()));
     setSubmitted(true);
+
+    const res = await axiosPublic.patch(`/surveys/vote/${_id}`)
+      console.log(res.data);
+      refetch();
+    
   };
 
   const handleTextareaChange = (event) => {

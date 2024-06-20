@@ -9,7 +9,7 @@ const Surveys = () => {
   const [sortOption, setSortOption] = useState('');
 
   const fetchSurveys = async () => {
-    const response = await axios.get('https://survey-shark-server.vercel.app/surveys');
+    const response = await axios.get('https://survey-shark-server.vercel.app/publish-surveys');
     return response.data;
   };
 
