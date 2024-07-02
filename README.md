@@ -1,11 +1,6 @@
-# React + Vite
+# Survey Shark
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Welcome to SurveyShark! Survey Shark is a comprehensive platform designed for efficient survey management and insightful data collection. It empowers users to create, distribute, and analyze surveys seamlessly across various domains. The platform offers robust features tailored for both individual and organizational use, enhancing decision-making processes and fostering community engagement. With intuitive tools for survey creation, customizable templates, real-time analytics, and secure data handling, Survey Shark ensures a user-friendly experience for researchers, businesses, educators, and anyone seeking valuable insights through structured feedback.
 
 # My Website
 
@@ -28,4 +23,20 @@ Currently, two official plugins are available:
 10. **Security**: Protect against unauthorized access with middleware and token verification.
 
 
+## Technologies Used
 
+- HTML
+- CSS
+- Tailwind CSS
+- JavaScript
+- React
+- Firebase Authentication
+- MongoDB
+
+## Local Setup
+
+1. Clone the repository:
+2. npm install
+3. npm run dev
+
+Thank you for visiting Survey Shark!🌟
